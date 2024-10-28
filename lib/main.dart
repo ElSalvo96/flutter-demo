@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
-        home: MyHomePage(),
+        home: const MyHomePage(),
       ),
     );
   }
@@ -55,6 +55,8 @@ class MyAppState extends ChangeNotifier {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -67,9 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = GeneratorPage();
+        page = const GeneratorPage();
       case 1:
-        page = FavoritesPage();
+        page = const FavoritesPage();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -81,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SafeArea(
                 child: NavigationRail(
               extended: constraints.maxWidth >= 600,
-              destinations: [
+              destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
                   label: Text('Home'),
@@ -111,6 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class GeneratorPage extends StatelessWidget {
+  const GeneratorPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -120,25 +124,25 @@ class GeneratorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(flex: 3, child: HistoryList()),
-          SizedBox(height: 10),
+          const Expanded(flex: 3, child: HistoryList()),
+          const SizedBox(height: 10),
           BigCard(pair: pair),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             // mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               FavoriteButton(pair: pair),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               ElevatedButton(
                 onPressed: () {
                   appState.getNext();
                 },
-                child: Text('Next'),
+                child: const Text('Next'),
               ),
             ],
           ),
-          Spacer(flex: 1),
+          const Spacer(flex: 1),
         ],
       ),
     );
@@ -162,7 +166,7 @@ class FavoriteButton extends StatelessWidget {
         appState.toggleFavorite(pair);
       },
       icon: LikeIcon(pair: pair),
-      label: Text('Like'),
+      label: const Text('Like'),
     );
   }
 }
@@ -189,12 +193,14 @@ class LikeIcon extends StatelessWidget {
 }
 
 class FavoritesPage extends StatelessWidget {
+  const FavoritesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var favorites = appState.favorites;
     if (appState.favorites.isEmpty) {
-      return Center(
+      return const Center(
         child: Text('No favorites yet.'),
       );
     }
@@ -208,7 +214,7 @@ class FavoritesPage extends StatelessWidget {
         for (var pair in favorites)
           ListTile(
             key: Key(pair.asLowerCase),
-            leading: Icon(
+            leading: const Icon(
               Icons.delete_forever,
               color: Colors.red,
               semanticLabel: 'Delete',
@@ -243,7 +249,7 @@ class BigCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: AnimatedSize(
-          duration: Duration(milliseconds: 400),
+          duration: const Duration(milliseconds: 400),
           child: Text(
             pair.asLowerCase,
             style: style,
@@ -287,7 +293,7 @@ class _HistoryListState extends State<HistoryList> {
       child: AnimatedList(
           key: _key,
           reverse: true,
-          padding: EdgeInsets.only(top: 150),
+          padding: const EdgeInsets.only(top: 150),
           initialItemCount: history.length,
           itemBuilder: (context, index, animation) {
             final pair = history[index];
